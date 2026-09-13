@@ -109,6 +109,13 @@ you think about ownership) — without ever just handing you the fix.
 
 - **Tracks**: ordered sequences of projects (e.g. "Foundations" →
   "Data Structures & Memory" → "Systems & Performance" → "A Real App").
+  A parallel **Hardware/ARES track** (ESP32-based, starting after
+  Foundations 01-05) lets the same curriculum point at real hardware
+  instead of purely software projects — see
+  [`curriculum/hardware-ares.md`](curriculum/hardware-ares.md). It also
+  sets the architecture for a future Vision & Autonomy track (CV/ML on a
+  companion computer, not the microcontroller) without committing to that
+  track's design yet.
 - **Project spec** (data, not code): id, prerequisites, learning objectives,
   a **primer outline** (the list of new concepts the tutor must explain
   before the learner starts — see §4 step 1; this is what makes the tool
