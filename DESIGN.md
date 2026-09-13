@@ -45,35 +45,56 @@ $ cppt ask "why did that segfault"
 $ cppt hint           # ask for a nudge without giving up progress
 ```
 
+This is explicitly a **homework model, not a live-tutoring model**: there's
+no lecture and no synchronous session. Each project is a self-contained
+assignment — primer, then the work, then a check-in for feedback — done
+entirely on the learner's own schedule. This matters for someone with zero
+C++ background: the tool cannot assume prior lecture material exists
+anywhere else, so the primer in step 1 below is not optional polish, it's
+the only place new concepts get taught before they're needed.
+
 Step by step, for one project:
 
-1. **Brief.** `cppt next` prints a project brief to the terminal and writes a
-   `PROJECT.md` + starter files into a new directory (e.g.
+1. **Primer.** Before the brief, `cppt next` prints a short (5-10 minute
+   read) explanation of *only the new concepts this project needs* —
+   e.g. project 05's primer covers arrays and structs, assuming everything
+   from projects 01-04 is already known. This is written content (LLM-
+   generated from a per-project outline in the spec, so it can be
+   regenerated with fresh examples/analogies if the first phrasing doesn't
+   land — worth a `cppt explain --again` or `cppt ask` follow-up right
+   there if it doesn't click), not a link out to a textbook.
+2. **Brief.** Immediately after, `cppt next` prints the project brief and
+   writes a `PROJECT.md` + starter files into a new directory (e.g.
    `projects/03-text-adventure/`). The brief states the goal, constraints
    (e.g. "no `<vector>` yet, you haven't learned it"), and what "done" means
    (a checklist, not just "it compiles").
-2. **Learner writes code** in their own editor, at their own pace. The CLI
-   isn't watching keystrokes — it only cares when invoked.
-3. **`cppt check`** compiles the project (via CMake/a configured build),
+3. **Learner writes code** in their own editor, at their own pace — this is
+   the "homework" itself. The CLI isn't watching keystrokes; it only cares
+   when invoked. No deadlines, since this is self-paced by design.
+4. **`cppt check`** compiles the project (via CMake/a configured build),
    runs any provided tests, and captures compiler output, warnings, and test
    results. This is fast, deterministic, and free — no LLM call for a plain
-   syntax error the compiler already explained clearly.
-4. **Tutor review.** If it builds and passes basic checks, the CLI sends a
+   syntax error the compiler already explained clearly. This is effectively
+   "turning in" the assignment, and it's meant to be run as many times as
+   needed — resubmission is free and expected, not penalized.
+5. **Tutor review.** If it builds and passes basic checks, the CLI sends a
    diff (or the full small project) plus the check results to the LLM tutor
    with a system prompt describing this project's learning goals and the
    learner's history (concepts already taught, common mistakes so far). The
    tutor responds with: what's good, what's fragile or unidiomatic, and 1-3
    targeted questions or hints — never a rewritten solution unless asked.
-5. **Conversation.** The learner can `cppt ask <question>` at any point —
+   This is the "grading," but formative, not punitive: no score, just
+   feedback and (per step 7) a completion gate.
+6. **Conversation.** The learner can `cppt ask <question>` at any point —
    about a compiler error, a concept, or "why is my code slow." The tutor
    has the project context and recent check output loaded automatically.
-6. **Hints are opt-in and tiered.** `cppt hint` gives progressively more
+7. **Hints are opt-in and tiered.** `cppt hint` gives progressively more
    specific nudges (concept → pointer to the relevant section of their code
    → pseudocode), so asking for help doesn't skip straight to the answer.
-7. **Completion.** The tutor (plus objective checks: builds clean, tests
+8. **Completion.** The tutor (plus objective checks: builds clean, tests
    pass, meets the checklist) marks the project complete. The CLI records
    this in local progress state and unlocks `cppt next`.
-8. **Between projects**, a short recap: what concepts this project actually
+9. **Between projects**, a short recap: what concepts this project actually
    exercised, what's coming next and why (e.g. "your text adventure hardcoded
    rooms in if/else — next project introduces `std::map` so you can do this
    properly").
@@ -89,10 +110,13 @@ you think about ownership) — without ever just handing you the fix.
 - **Tracks**: ordered sequences of projects (e.g. "Foundations" →
   "Data Structures & Memory" → "Systems & Performance" → "A Real App").
 - **Project spec** (data, not code): id, prerequisites, learning objectives,
-  constraints (allowed/disallowed features, since a project early in
-  "Foundations" shouldn't quietly let the learner reach for `std::vector`
-  before it's taught), starter files, a checklist of observable done-criteria,
-  and hint tiers.
+  a **primer outline** (the list of new concepts the tutor must explain
+  before the learner starts — see §4 step 1; this is what makes the tool
+  usable with zero prior C++ knowledge instead of assuming a lecture already
+  happened), constraints (allowed/disallowed features, since a project early
+  in "Foundations" shouldn't quietly let the learner reach for `std::vector`
+  before it's taught), starter files, a checklist of observable
+  done-criteria, and hint tiers.
 - Specs are plain files (YAML/JSON + markdown brief) shipped with the tool,
   versioned like content, not code — this makes it possible to add/edit
   projects without touching the CLI itself.

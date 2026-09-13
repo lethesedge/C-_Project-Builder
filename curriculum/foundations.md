@@ -179,6 +179,12 @@ learning_objectives:
   - raw pointers and nullptr as a "not found" result
   - basic file I/O with <fstream>
   - text-based serialization of struct data
+primer_outline:
+  # what cppt next explains BEFORE showing the brief — assumes 05/06 already landed
+  - "references (&) vs pointers (*): when to use which, and why passing a struct by reference avoids a silent copy"
+  - "what a raw pointer is, and why nullptr means 'points at nothing' rather than being a normal address"
+  - "reading and writing plain text files with ifstream/ofstream: open, check success, read line by line, close"
+  - "a simple serialization format for this project: one contact per line, fields separated by a delimiter"
 constraints:
   disallowed: [std::vector, std::map, "new/delete"]
   allowed_includes: [iostream, string, fstream, cstring]
