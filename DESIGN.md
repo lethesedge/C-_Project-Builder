@@ -99,6 +99,9 @@ you think about ownership) — without ever just handing you the fix.
 - Projects escalate in size: single-file exercises early on, small multi-file
   CMake projects by the middle track, one longer capstone at the end of each
   track that forces integration of everything learned so far.
+- See [`curriculum/foundations.md`](curriculum/foundations.md) for a sketch
+  of the first track: 10 projects, a worked example of the project spec
+  format, and open questions specific to sequencing it.
 
 ## 6. Architecture
 
